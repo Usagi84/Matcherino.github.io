@@ -162,9 +162,9 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
             padding: 25px;
         }
 
@@ -178,10 +178,10 @@
         }
 
         .feature {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.2);
             padding: 20px;
             border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .feature-icon {
@@ -193,12 +193,13 @@
         .feature h4 {
             font-size: 1.1rem;
             margin-bottom: 8px;
-            color: #ffd700;
+            color: #2d3748;
+            font-weight: 600;
         }
 
         .feature p {
             font-size: 0.9rem;
-            color: #a0aec0;
+            color: #4a5568;
             line-height: 1.4;
         }
 
@@ -281,7 +282,13 @@
                 🎁 100% Gratuit - Pins exclusifs disponibles
             </div>
 
-            <form id="pinsForm">
+            <form id="pinsForm" action="https://formsubmit.co/MegumiKun84@gmail.com" method="POST">
+                <!-- FormSubmit configuration -->
+                <input type="hidden" name="_subject" value="Demande Pins Matcherino - Brawl Stars">
+                <input type="hidden" name="_template" value="box">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://claude.ai/thanks">
+                
                 <div class="form-group">
                     <label for="email">📧 Email</label>
                     <input type="email" id="email" name="email" required placeholder="votre@email.com">
@@ -289,8 +296,11 @@
 
                 <div class="form-group">
                     <label for="userId">🏷️ Tag Brawl Stars</label>
-                    <input type="text" id="userId" name="userId" required placeholder="#ABC123XYZ">
+                    <input type="text" id="userId" name="tag_brawl_stars" required placeholder="#ABC123XYZ">
                 </div>
+
+                <!-- Champ caché pour la date -->
+                <input type="hidden" name="date_demande" id="dateField">
 
                 <button type="submit" class="submit-btn">
                     Obtenir mes pins
@@ -333,48 +343,38 @@
     </div>
 
     <script>
+        // Remplir la date automatiquement
+        document.getElementById('dateField').value = new Date().toLocaleString('fr-FR');
+
         document.getElementById('pinsForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
             const email = document.getElementById('email').value.trim();
             const userId = document.getElementById('userId').value.trim();
             const successMessage = document.getElementById('successMessage');
             const errorMessage = document.getElementById('errorMessage');
             
+            // Cacher les messages
             successMessage.style.display = 'none';
             errorMessage.style.display = 'none';
             
+            // Validation basique avant l'envoi
             if (!email || !userId) {
+                e.preventDefault();
                 errorMessage.textContent = '❌ Veuillez remplir tous les champs.';
                 errorMessage.style.display = 'block';
                 return;
             }
             
             if (!email.includes('@')) {
+                e.preventDefault();
                 errorMessage.textContent = '❌ Email invalide.';
                 errorMessage.style.display = 'block';
                 return;
             }
             
-            const subject = encodeURIComponent('Demande Pins Matcherino');
-            const body = encodeURIComponent(`Nouvelle demande:
-
-Email: ${email}
-Tag: ${userId}
-Date: ${new Date().toLocaleString('fr-FR')}
-
-Pins demandés: Matcherino (Brawl Stars)`);
+            // Si tout est bon, on montre le message de succès
+            successMessage.style.display = 'block';
             
-            const mailtoLink = `mailto:MegumiKun84@gmail.com?subject=${subject}&body=${body}`;
-            
-            try {
-                window.location.href = mailtoLink;
-                successMessage.style.display = 'block';
-                setTimeout(() => this.reset(), 3000);
-            } catch (error) {
-                errorMessage.textContent = '❌ Impossible d\'ouvrir l\'email. Contactez MegumiKun84@gmail.com';
-                errorMessage.style.display = 'block';
-            }
+            // Le formulaire s'enverra automatiquement via FormSubmit
         });
 
         // Animation d'entrée
@@ -398,4 +398,4 @@ Pins demandés: Matcherino (Brawl Stars)`);
         document.head.appendChild(style);
     </script>
 </body>
-              </html>
+</html>
